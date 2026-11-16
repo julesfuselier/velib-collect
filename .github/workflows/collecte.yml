@@ -2,9 +2,9 @@ name: Collecte Velib
 
 on:
   schedule:
-    # Toutes les 30 min (dépôt privé : quota de 2 000 min/mois).
-    # Si le dépôt passe en public, remplacer par "7,22,37,52 * * * *" (toutes les 15 min).
-    - cron: "7,37 * * * *"
+    # Toutes les 15 min (dépôt public : minutes GitHub Actions illimitées),
+    # décalé des minutes rondes, les plus chargées chez GitHub.
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch: # bouton « Run workflow » pour lancer à la main
 
 permissions:
