@@ -20,11 +20,13 @@ Chaque relevé est enregistré dans le dépôt :
 | velos_meca, velos_elec | vélos mécaniques / électriques |
 | bornettes_libres | places libres pour déposer un vélo |
 | installee, location_ok, retour_ok | état de fonctionnement de la station |
-| derniere_maj_unix | dernière mise à jour de la station (timestamp Unix) |
+| derniere_maj | dernière mise à jour de la station (timestamp Unix pour GBFS, date ISO pour opendata.paris.fr) |
+| source | `gbfs` (flux officiel Vélib') ou `opendata.paris.fr` |
 
-## Source
+## Sources
 
-Flux GBFS Vélib' Métropole : https://velib-metropole-opendata.smovengo.cloud/opendata/Velib_Metropole/gbfs.json
+- Flux GBFS Vélib' Métropole : https://velib-metropole-opendata.smovengo.cloud/opendata/Velib_Metropole/gbfs.json
+- Si le flux GBFS ne répond pas : portail Open Data de la Ville de Paris (jeu velib-disponibilite-en-temps-reel). Dans ce cas `station_id` est vide : utiliser `station_code` pour les jointures.
 
 ## Remarques
 
