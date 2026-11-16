@@ -1,0 +1,38 @@
+name: Collecte Velib
+
+on:
+  schedule:
+    # Toutes les 30 min (dépôt privé : quota de 2 000 min/mois).
+    # Si le dépôt passe en public, remplacer par "7,22,37,52 * * * *" (toutes les 15 min).
+    - cron: "7,37 * * * *"
+  workflow_dispatch: # bouton « Run workflow » pour lancer à la main
+
+permissions:
+  contents: write # nécessaire pour enregistrer les fichiers dans le dépôt
+
+concurrency:
+  group: collecte
+  cancel-in-progress: false
+
+jobs:
+  collecte:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Relever les stations
+        run: python collect.py
+
+      - name: Enregistrer dans le dépôt
+        run: |
+          git config user.name "collecte-bot"
+          git config user.email "collecte-bot@users.noreply.github.com"
+          git add data
+          git commit -m "Relevé $(date -u +'%Y-%m-%d %H:%M') UTC" || exit 0
+          git pull --rebase
+          git push
